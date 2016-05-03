@@ -33,6 +33,8 @@ void setup()
   pinMode(tempPin, INPUT);
   pinMode(susPin1, INPUT);
   pinMode(susPin2, INPUT);
+
+  analogReadRes(16);
   setupCAN();
 //  delay(d);
 
@@ -41,6 +43,12 @@ void setup()
 //    Serial.println("initialization failed!");
     delay(d);
   }
+  myFile = SD.open("temp.txt", FILE_WRITE);
+  if (myFile.size() < 20) {
+    myFile = SD.open("temp.txt", FILE_WRITE);
+    myFile.println("Temp FR, Temp FL, Temp BR, Temp BL, SusPot FR, SusPot FL");
+  }
+  myFile.close();
 //  Serial.println("initialization done.");
 }
 
@@ -48,9 +56,9 @@ void setup()
 void loop()
 {
   // On the Ethernet Shield, CS is pin 4. It's set as an output by default.
-  // Note that even if it's not used as the CS pin, the hardware SS pin 
-  // (10 on most Arduino boards, 53 on the Mega) must be left as an output 
-  // or the SD library functions will not work. 
+  // Note that even if it's not used as the CS pin, the hardware SS pin
+  // (10 on most Arduino boards, 53 on the Mega) must be left as an output
+  // or the SD library functions will not work.
 
   count++;
   processCAN();
@@ -95,7 +103,7 @@ void loop()
   myFile = SD.open("temp.txt", FILE_WRITE);
 //  delay(d);
   myFile.print(degree);
-  myFile.print(","); 
+  myFile.print(",");
   if (count % 4 == 3){
 //    myFile.println(clutch_pos_req);
 //    Serial.println(brake_pressure);
@@ -110,7 +118,7 @@ void loop()
 //  susFile.print(",");
 //  susFile.println(susP2);
 //  susFile.close();
-  
+
   delay(d);
   if (SD.exists("temp.txt")) {
 //    Serial.println("data.txt exists.");
