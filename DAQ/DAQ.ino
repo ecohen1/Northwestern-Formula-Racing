@@ -45,7 +45,7 @@ void setup()
   myFile = SD.open("temp.txt", FILE_WRITE);
   if (myFile.size() < 20) {
     myFile = SD.open("temp.txt", FILE_WRITE);
-    myFile.println("Temp FR, Temp FL, Temp BR, Temp BL, SusPot FR, SusPot FL");
+    myFile.println("Temp FR, Temp FL, Temp BR, Temp BL, SusPot FR, SusPot FL, Brake Pressure, Clutch Req");
   }
   myFile.close();
 //  Serial.println("initialization done.");
@@ -110,7 +110,11 @@ void loop()
 //    Serial.println(brake_pressure);
     myFile.print(susP1);
     myFile.print(",");
-    myFile.println(susP2);
+    myFile.print(susP2);
+    myFile.print(",");
+    myFile.print(brake_pressure);
+    myFile.print(",");
+    myFile.println(clutch_pos_req);
   }
   myFile.close();
 
