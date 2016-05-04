@@ -169,10 +169,10 @@ int upshiftpin = 8;//5;
 int dd1 = 100;//clutch open
 int dd2 = 250;//shifter out
 int dd3 = 50;//shifter to middle
-int ud2 = 75;//shifter out
+int ud2 = 60;//shifter out
 int del = 0;
 int CUT_TO_SHIFT = 20;
-int SHIFT_TO_ON = 20;
+int SHIFT_TO_ON = 10;
 Metro refresh = Metro(REFRESH);
 
 //NFR Libaries
