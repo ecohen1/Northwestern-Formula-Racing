@@ -72,7 +72,7 @@ void sendCAN() {
 	//Packet 1
 	//Bit 0			ENGINE is ON
 	//Bit 1			FUEL is ON
-	//Bit 2			IGN is ON
+	//Bit 2			TC is ON
 	//Bit 3			LC is ON
 	//Bit 4-5		Car Mode
 	//Bit 6			Neutral
@@ -82,6 +82,7 @@ void sendCAN() {
 	//Bit 3			Clutch Bite
 	//Bit 8-15		Clutch Position
 	txmsg.buf[0] = sw_state;
+  //TODO: confirm this contains tc/ lc state
 	txmsg.buf[1] = (gear_req & 0b1111) | (clutch_bite_req << 4);
 	txmsg.buf[2] = clutch_pos_req;
 	CANbus.write(txmsg);

@@ -14,10 +14,14 @@ void setup() {
   pinMode(upshiftpin,OUTPUT);
   pinMode(dnshiftpin,OUTPUT);
   pinMode(IGN_CUT,OUTPUT);
+  pinMode(LAUNCH,OUTPUT);
+  pinMode(TRACTION,OUTPUT);
   digitalWrite(clutchpin,LOW);
   digitalWrite(upshiftpin,LOW);
   digitalWrite(dnshiftpin,LOW);
   digitalWrite(IGN_CUT,LOW);
+  digitalWrite(LAUNCH,LOW);
+  digitalWrite(TRACTION,LOW);
 }
 
 

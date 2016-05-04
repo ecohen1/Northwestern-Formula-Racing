@@ -61,11 +61,11 @@ void processInputs() {
 	}
 }
 //
-//void setSW_LEDS() {
+void setSW_LEDS() {
 //	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //	//Change to represent what TCU says the actual state is
 //	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//	if (old_sw_state == sw_state) return;
+  if (old_sw_state == sw_state) return;
 //	sw_led_state = sw_state & 0b00000001;							//ENGINE		
 //	if ((sw_state & 0b00000010) >> 1) sw_led_state |= 0b00100000;	//FUEL
 //	else sw_led_state &= 0b00011111;
@@ -77,10 +77,10 @@ void processInputs() {
 //	else sw_led_state &= 0b00111011;
 //	if (drive_mode == 2) sw_led_state |= 0b00000010;				//MODE
 //	else sw_led_state &= 0b00111101;
-//	digitalWrite(CCLR, LOW);
-//	digitalWrite(CCLR, HIGH);
-//	for (uint8_t i = 0; i <= sw_led_state; i++) {
-//		digitalWrite(CCLK, HIGH);
-//		digitalWrite(CCLK, LOW);
-//	}
-//}
+  digitalWrite(CCLR, LOW);
+  digitalWrite(CCLR, HIGH);
+  for (uint8_t i = 0; i <= sw_led_state; i++) {
+    digitalWrite(CCLK, HIGH);
+    digitalWrite(CCLK, LOW);
+  }
+}

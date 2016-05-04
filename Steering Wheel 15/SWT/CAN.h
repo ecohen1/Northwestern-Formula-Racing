@@ -21,9 +21,9 @@ void processCAN() {
 		if (rxmsg.id == CAN_TT) {
 			tt_sw = rxmsg.buf[0];
 			tt_trans = rxmsg.buf[1];
-            //gear = (tt_trans & 0b111);
-            gear_reset = (tt_trans & 0b1000) >> 3;
-	        clutch_bite = (tt_trans & 0b10000) >> 4;
+      //gear = (tt_trans & 0b111);
+      gear_reset = (tt_trans & 0b1000) >> 3;
+	    clutch_bite = (tt_trans & 0b10000) >> 4;
 			clutch_pos = 100*rxmsg.buf[2]/255.;
 		}
 		if (rxmsg.id == CAN_DAQ1) {

@@ -20,8 +20,30 @@ void processCAN() {
 	while (CANbus.read(rxmsg)) {
 		if (rxmsg.id == CAN_SW) {
 			tt_sw = rxmsg.buf[0];
+
+      if (tt_sw&(1<<traction_offset))
+      {
+        digitalWrite(TRACTION,HIGH);
+      }
+      else
+      {
+        digitalWrite(TRACTION,LOW);
+      }
+      if (tt_sw&(1<<launch_offset))
+      {
+        digitalWrite(LAUNCH,HIGH);
+      }
+      else
+      {
+        digitalWrite(LAUNCH,LOW);
+      }
+
+      //richard is the coolest boy in school ;)
+      
+      //TODO: parse state for launch control and traction control
+      //TODO: set pin for each respectively
 			tt_trans = rxmsg.buf[1];
-                        gear_req = (tt_trans & 0b111);
+      gear_req = (tt_trans & 0b111);
 			clutch_pos_req = rxmsg.buf[2];
       if (clutch_pos_req > 200){
         digitalWrite(13,HIGH);
@@ -81,9 +103,9 @@ void sendCAN() {
 	//Bit 3			Clutch Bite
 	//Bit 8-15		Clutch Position
 	//txmsg.buf[0] = sw_state;
-        uint8_t temp = constrain(255.*clutch.pos/1.05,0,255);
+  uint8_t temp = constrain(255.*clutch.pos/1.05,0,255);
 	txmsg.buf[1] = gear;
-        txmsg.buf[1] = (txmsg.buf[1] & 0b111) | (gear_reset << 3);
+  txmsg.buf[1] = (txmsg.buf[1] & 0b111) | (gear_reset << 3);
 	txmsg.buf[1] = (txmsg.buf[1] & 0b1111) | (clutch_bite << 4);
 	txmsg.buf[2] = temp;
 	CANbus.write(txmsg);

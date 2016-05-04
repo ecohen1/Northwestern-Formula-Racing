@@ -37,7 +37,7 @@ void loop() {
 		shift();
 		if (l % (REFRESH / REFRESH_RING) == 0) 	refreshNeo();
 		if (l % (REFRESH / REFRESH_LCD) == 0) 	refreshLCD(1); //if adding page numbers input the correct page num
-//		setSW_LEDS();
+		setSW_LEDS();
 		sendCAN();	
 		
 		if (l % 500 == 0) debug(); //Every half second output debug information
