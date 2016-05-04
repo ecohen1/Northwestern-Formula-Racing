@@ -34,7 +34,6 @@ void setup()
   pinMode(susPin1, INPUT);
   pinMode(susPin2, INPUT);
 
-  analogReadRes(16);
   setupCAN();
 //  delay(d);
 
@@ -80,8 +79,10 @@ void loop()
   }
   delay(d);
   temp = analogRead(tempPin);
+  analogReadRes(16);
   susP1 = analogRead(susPin1);
   susP2 = analogRead(susPin2);
+  analogReadRes(10);
 //  Serial.print(temp);
 //  Serial.print("\t");
 //  Serial.print((count%4)+1);
