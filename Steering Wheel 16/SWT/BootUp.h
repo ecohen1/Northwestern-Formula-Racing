@@ -1,9 +1,10 @@
 void setupinput() {
 	//Digital Inputs
-	pinMode(SW2, INPUT);
-	pinMode(SW3, INPUT);
+	pinMode(TRACTION, INPUT);
+	pinMode(LAUNCH, INPUT);
 	pinMode(UP, INPUT);
 	pinMode(DOWN, INPUT);
+  pinMode(CLUTCH, INPUT);
 	
 	//Analog Setup
 	analogReadResolution(RES);

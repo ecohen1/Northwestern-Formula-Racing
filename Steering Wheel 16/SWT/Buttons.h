@@ -1,11 +1,16 @@
-#define TRACTION		SW3
-#define LAUNCH		SW2
-
 //SW STATE IS A BINARY NUMBER. THE SECOND BIT FROM LEFT IS CLUTCH. THIRD IS TRACTION, FOURTH IS LAUNCH. SIXTH AND SEVENTH ARE PADDLES.
 
 //Toggles Switch State
 void processInputs() {
 	old_sw_state = sw_state;
+
+  if (analogRead(ROTARY) < 600) {
+    auto_shift = 1;
+  }
+  else {
+    auto_shift = 0;
+  }
+  
 	if (ground_speed < MIN_SPEED) {
 
 		//TRACTION switch debouncer
@@ -34,38 +39,52 @@ void processInputs() {
 			}
 		}
 	}
-
-	//Debounce up paddle
-	if (digitalRead(UP)) {
-		up_counter[6]++;
-		if (up_counter[6] == SHORT_PRESS) shift_req = digitalRead(UP);
-	}
-	else if (up_counter[6] > 0) {
-		dn_counter[6]++;
-		if (dn_counter[6] == SHORT_PRESS) {
-			up_counter[6] = 0;
-			dn_counter[6] = 0;
-		}
-	}
-	//Debounce down paddle
-	if (digitalRead(DOWN)) {
-		up_counter[7]++;
-		if (up_counter[7] == SHORT_PRESS) shift_req = (digitalRead(DOWN) << 1);
-	}
-	else if (up_counter[7] > 0) {
-		dn_counter[7]++;
-		if (dn_counter[7] == SHORT_PRESS) {
-			up_counter[7] = 0;
-			dn_counter[7] = 0;
-		}
-	}
+  if (auto_shift){
+    //auto_shifting for loss of shifting control
+    if (gear < 5 && rpm > 9000)
+    {
+      shift_req = 1;
+      delay(70);
+    }
+    else if (gear > 1 && rpm < 2950)
+    {
+      shift_req = 2;
+      delay(70);
+    }
+  }
+  else {
+  	//Debounce up paddle
+  	if (digitalRead(UP)) {
+  		up_counter[6]++;
+  		if (up_counter[6] == SHORT_PRESS) shift_req = digitalRead(UP);
+  	}
+  	else if (up_counter[6] > 0) {
+  		dn_counter[6]++;
+  		if (dn_counter[6] == SHORT_PRESS) {
+  			up_counter[6] = 0;
+  			dn_counter[6] = 0;
+  		}
+  	}
+  	//Debounce down paddle
+  	if (digitalRead(DOWN)) {
+  		up_counter[7]++;
+  		if (up_counter[7] == SHORT_PRESS) shift_req = (digitalRead(DOWN) << 1);
+  	}
+  	else if (up_counter[7] > 0) {
+  		dn_counter[7]++;
+  		if (dn_counter[7] == SHORT_PRESS) {
+  			up_counter[7] = 0;
+  			dn_counter[7] = 0;
+  		}
+  	}
+  }
 }
 //
 void setSW_LEDS() {
 //	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //	//Change to represent what TCU says the actual state is
 //	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  if (old_sw_state == sw_state) return;
+//  if (old_sw_state == sw_state) return;
 //	sw_led_state = sw_state & 0b00000001;							//ENGINE		
 //	if ((sw_state & 0b00000010) >> 1) sw_led_state |= 0b00100000;	//FUEL
 //	else sw_led_state &= 0b00011111;
@@ -77,10 +96,10 @@ void setSW_LEDS() {
 //	else sw_led_state &= 0b00111011;
 //	if (drive_mode == 2) sw_led_state |= 0b00000010;				//MODE
 //	else sw_led_state &= 0b00111101;
-  digitalWrite(CCLR, LOW);
-  digitalWrite(CCLR, HIGH);
-  for (uint8_t i = 0; i <= sw_led_state; i++) {
-    digitalWrite(CCLK, HIGH);
-    digitalWrite(CCLK, LOW);
-  }
+//  digitalWrite(CCLR, LOW);
+//  digitalWrite(CCLR, HIGH);
+//  for (uint8_t i = 0; i <= sw_led_state; i++) {
+//    digitalWrite(CCLK, HIGH);
+//    digitalWrite(CCLK, LOW);
+//  }
 }

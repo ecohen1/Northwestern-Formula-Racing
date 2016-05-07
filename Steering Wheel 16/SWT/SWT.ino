@@ -40,7 +40,7 @@ void loop() {
 		setSW_LEDS();
 		sendCAN();	
 		
-		if (l % 500 == 0) debug(); //Every half second output debug information
+		debug(); //Every half second output debug information
 		
 		//Increase counter and loop over at one second
 		l++;
@@ -58,10 +58,11 @@ void debug() {
 	//Serial.println(digitalRead(SW3));
 	//Serial.println(digitalRead(LAUNCH));
 	//Serial.println(digitalRead(CLUTCH));
-	//Serial.println(digitalRead(MODE));
+	//Serial.println(digitalRead(UP));
+  //Serial.println(digitalRead(DOWN));
 	//Serial.println(digitalRead(SW1));
-	Serial.println(digitalRead(UP));
-	Serial.println(digitalRead(DOWN));
+	//Serial.println(analogRead(ROTARY));
+	//Serial.println(digitalRead(LAUNCH));
 	//Serial.println(analogRead(CLUTCH1)*TEENSY_VOL/an_lv);
 	//Serial.println(analogRead(CLUTCH2)*TEENSY_VOL/an_lv);
 	//Serial.println(clutch_p1);
@@ -86,14 +87,14 @@ void debug() {
 	Serial.print((sw_led_state & 0b00000100) >> 2);
 	Serial.print((sw_led_state & 0b00000010) >> 1);
 	Serial.println((sw_led_state & 0b00000001));*/
-	//Serial.println(clutch_pos);
+	Serial.println(clutch_pos_req);
 	//Serial.println(brake_pressure);
-    //Serial.println(sw_led_state);
+  //Serial.println(sw_led_state);
 	//Serial.println(timeStatus());
 	//Serial.println(drive_mode);
 	//Serial.println(gear_req);
 	//Serial.println(gear);
-	//Serial.println(shift_req);
+	Serial.println(shift_req);
 	//Serial.println(rxmsg.id);
 	//Serial.println(rpm);
 	//Serial.println(oil_pressure);

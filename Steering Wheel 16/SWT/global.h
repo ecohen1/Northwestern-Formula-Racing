@@ -12,12 +12,12 @@
 #define MOSI			11
 #define MISO			12
 #define SCK				13
-#define SW2				16
-#define SW3				17
-#define ROTARY		18
+#define TRACTION	15
+#define LAUNCH		16
+#define ROTARY		17
 #define UP				19
 #define DOWN			20
-#define CLUTCH    15
+#define CLUTCH    14
 
 //Global defines for convenience
 #define TEENSY_VOL		3.3f		//Teensy Logic Voltage
@@ -173,6 +173,8 @@ float	max_clutch_req	= 0;
 uint8_t clutch_pos_req = 0;
 bool 	clutch_bite = 0;
 bool 	clutch_bite_req = 0;
+//0 is manual, 1 is auto
+uint8_t auto_shift = 0;
 
 //Drive Mode
 byte old_drive_mode = 0x1;
