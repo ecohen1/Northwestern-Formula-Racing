@@ -22,7 +22,7 @@
 
 uint32_t front_color = 0x0;		//Foreground Color
 uint32_t back_color = 0x0;		//Background Color
-uint32_t line_color = 0x0;		//Line Color	
+uint32_t line_color = 0x0;		//Line Color
 uint32_t text_color = 0x0;		//Text Color
 uint32_t tp_color = 0x00FF64;
 uint32_t brake_color = 0xF22613;
@@ -99,7 +99,7 @@ void resetLCD(String message) {
 	tft.fillRect(0, BORDER2 + LINE_WIDTH / 2, LCD_WIDTH, LCD_HEIGHT - BORDER2, back_color);
 	tft.fillRect(0, BORDER1 - LINE_WIDTH / 2, LCD_WIDTH, LINE_WIDTH, line_color);
 	tft.fillRect(0, BORDER2 - LINE_WIDTH / 2, LCD_WIDTH, LINE_WIDTH, line_color);
-	tft.fillRect(0, 300 - 5, 360, 9, line_color);  
+	tft.fillRect(0, 300 - 5, 360, 9, line_color);
     tft.fillRect(BAR_COL+2*BAR_SPACE, BAR_ROW, BAR_WIDTH, -throtpos*2-LINE_WIDTH, RGB565(0x00FF64)); //Throttle Position
     tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -brake_pressure*.4-LINE_WIDTH, RGB565(0xF22613)); //Brake Pressure
     tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -oil_pressure*2-LINE_WIDTH, RGB565(0xFF5E00)); //Oil Pressure
@@ -107,7 +107,7 @@ void resetLCD(String message) {
 	tft.setFontScale(3);
 	tft.print(message);
 	tft.setFontScale(0);
-	printNum(oil_pressure, COLUMN1, ROW3, 5, 1); // oil pressure		
+	printNum(oil_pressure, COLUMN1, ROW3, 5, 1); // oil pressure
 	printNum(engine_temp, COLUMN1, ROW5, 5, 1); // Engine temp
 	printNum(rpm, 10, 330, 5, 0); // RPM
 	printEngine(735, 100);
@@ -145,10 +145,10 @@ void refreshLCD(int page) {
 	tft.setFontScale(0);
     tft.setTextColor(front_color,back_color);
 	if (abs(oil_pressure - oldOil) > tol) {
-		printNum(oil_pressure, COLUMN1, ROW3, 5, 1); // Oil	
+		printNum(oil_pressure, COLUMN1, ROW3, 5, 1); // Oil
     tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -100*2-LINE_WIDTH, back_color);
     tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -oil_pressure*2-LINE_WIDTH, RGB565(0xFF5E00));
-    
+
 		oldOil = oil_pressure;
 	}
 	if (abs(brake_pressure - oldbrake) > tol) {
@@ -174,7 +174,7 @@ void refreshLCD(int page) {
 		oldbattvolt = battvolt;
 	}
 	if (abs(main_a - old_a) > .2 * tol) {
-		printNum(main_a, COLUMN2, ROW5, 4, 1); 
+		printNum(main_a, COLUMN2, ROW5, 4, 1);
 		old_a = main_a;
 	}
 	if (abs(lambda1 - oldlambda) > .02 * tol) {
@@ -186,7 +186,7 @@ void refreshLCD(int page) {
 	tft.setFontScale(3);
 	if (old_auto_shift != auto_shift) {
 		print_drive_mode();
-	} 
+	}
 }
 
 void print_drive_mode() {

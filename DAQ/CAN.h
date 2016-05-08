@@ -60,8 +60,9 @@ void sendCAN() {
 	//Bit 0-2		Gear
 	//Bit 3			Clutch Bite
 	//Bit 8-15		Clutch Position
-//	txmsg.buf[0] = sw_state;
+	txmsg.buf[0] = daqcounter % 1000;
 //	txmsg.buf[1] = (gear_req & 0b1111) | (clutch_bite_req << 4);
 //	txmsg.buf[2] = clutch_pos_req;
-//	CANbus.write(txmsg);
+	CANbus.write(txmsg);
+	daqcounter++;
 }
