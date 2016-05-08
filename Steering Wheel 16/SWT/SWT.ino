@@ -87,14 +87,14 @@ void debug() {
 	Serial.print((sw_led_state & 0b00000100) >> 2);
 	Serial.print((sw_led_state & 0b00000010) >> 1);
 	Serial.println((sw_led_state & 0b00000001));*/
-	Serial.println(clutch_pos_req);
+	//Serial.println(clutch_pos_req);
 	//Serial.println(brake_pressure);
   //Serial.println(sw_led_state);
 	//Serial.println(timeStatus());
 	//Serial.println(drive_mode);
 	//Serial.println(gear_req);
 	//Serial.println(gear);
-	Serial.println(shift_req);
+	Serial.println(auto_shift);
 	//Serial.println(rxmsg.id);
 	//Serial.println(rpm);
 	//Serial.println(oil_pressure);
