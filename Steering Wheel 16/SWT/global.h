@@ -68,7 +68,7 @@ bool eFlag  = 0;
 bool eFlag1 = 0;
 bool eFlag2 = 0;
 String emergencyMessage = "";
-
+int daqcounter = 0;
 int l = 0;  //Generic counter
 
 //MoTeC CAN Bus Output
