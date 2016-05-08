@@ -30,6 +30,9 @@ void processCAN() {
 		if (rxmsg.id == CAN_SW) {
       clutch_pos_req = rxmsg.buf[2];
     }
+		if (rxmsg.id == CAN_SW2) {
+			brake_pressure = rxmsg.buf[0];
+		}
     if (rxmsg.id == CAN1) {
 		}
 		if (rxmsg.id == CAN2) {
@@ -37,8 +40,8 @@ void processCAN() {
 		if (rxmsg.id == CAN3) {
 		}
 		if (rxmsg.id == CAN4) {
-            brake_pressure = .1*((rxmsg.buf[4] << 8) | rxmsg.buf[5]);
-            brake_pressure = constrain(brake_pressure,0,500);
+            // brake_pressure = .1*((rxmsg.buf[4] << 8) | rxmsg.buf[5]);
+            // brake_pressure = constrain(brake_pressure,0,500);
 		}
 	}
 }

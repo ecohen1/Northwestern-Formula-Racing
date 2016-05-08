@@ -27,6 +27,7 @@
 #define TEENSY_VOL		3.3f		//Teensy Logic Voltage
 #define CAN_RATE		1000000		//1 Mbit/s
 #define CAN_SW		 	0x4F0		//CAN Data from Steering Wheel
+#define CAN_SW2		 	0x4F9		//CAN Data from Steering Wheel
 #define CAN_TT		 	0x4F1		//CAN Data from Transmission Teensy
 #define CAN_DAQ1	 	0x4F2		//CAN Data from DAQ
 #define CAN_DAQ2	 	0x4F3		//CAN Data from DAQ
@@ -70,7 +71,7 @@ bool eFlag  = 0;
 bool eFlag1 = 0;
 bool eFlag2 = 0;
 String emergencyMessage = "";
-	
+
 int  l = 0;  //Generic counter
 
 //MoTeC CAN Bus Output
@@ -80,7 +81,7 @@ int  l = 0;  //Generic counter
 //Ensure Data Set matches
 
 // Page 1 There is only one page currently
-uint16_t rpm = 0;         	//RPM      
+uint16_t rpm = 0;         	//RPM
 float throtpos = 0;      	//Throttle Position
 float manifpres = 0;     	//Manifold Air Pressure
 float engine_temp = 0;   	//Engine Temperature
@@ -116,8 +117,8 @@ float a_y = 0.;
 //Bit 1			Turn FUEL ON
 //Bit 2			Turn IGNITION ON
 //Bit 3			Turn Launch Control ON
-//Bit 4-5       Car Mode    
-       
+//Bit 4-5       Car Mode
+
 //Byte 2
 //Bit 0-2       Gear Request
 //Bit 3			N/A
@@ -153,11 +154,11 @@ Metro refresh = Metro(1000/REFRESH);
 //# of Analog Levels
 const uint16_t an_lv = pow(2, RES) - 1;
 
-//Active Switches 
+//Active Switches
 byte old_sw_state = 0x0;
 byte sw_state = 0x0;
 int up_counter[8] = { 0, 0, 0, 0, 0, 0, 0, 0};
-int dn_counter[8] = { 0, 0, 0, 0, 0, 0, 0, 0}; 
+int dn_counter[8] = { 0, 0, 0, 0, 0, 0, 0, 0};
 bool change_screen = 0;
 //Switch LEDs
 byte old_led_state = 0x0;

@@ -4,6 +4,7 @@ CAN_message_t txmsg, rxmsg;
 CAN_filter_t motec_mask = { 0, 0, 0x7F0 };  //Checks first 7 digits of ID
 CAN_filter_t filters = { 0, 0, 0 };
 uint32_t filter[8] = {CAN_TT, CAN_DAQ1, CAN_DAQ2, CAN1, CAN2, CAN3, CAN4, CAN5};
+int swcounter = 0;
 
 void setupCAN() {
 	CANbus.begin(motec_mask);
@@ -81,9 +82,17 @@ void sendCAN() {
 	//Bit 0-2		Gear
 	//Bit 3			Clutch Bite
 	//Bit 8-15		Clutch Position
-	txmsg.buf[0] = sw_state;
-  //TODO: confirm this contains tc/ lc state
-	txmsg.buf[1] = (gear_req & 0b1111) | (clutch_bite_req << 4);
-	txmsg.buf[2] = clutch_pos_req;
+	if (swcounter%2 == 0){
+    txmsg.id = CAN_SW;
+    txmsg.buf[0] = sw_state;
+    txmsg.buf[1] = (gear_req & 0b1111) | (clutch_bite_req << 4);
+    txmsg.buf[2] = clutch_pos_req;
+  } else {
+    txmsg.id = CAN_SW2;
+    txmsg.buf[0] = brake_pressure;
+    txmsg.buf[1] = brake_pressure;
+    txmsg.buf[2] = brake_pressure;
+  }
 	CANbus.write(txmsg);
+  swcounter++;
 }
