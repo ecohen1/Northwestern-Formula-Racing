@@ -40,8 +40,6 @@ void processCAN() {
 
       //richard is the coolest boy in school ;)
       
-      //TODO: parse state for launch control and traction control
-      //TODO: set pin for each respectively
 			tt_trans = rxmsg.buf[1];
       gear_req = (tt_trans & 0b111);
 			clutch_pos_req = rxmsg.buf[2];

@@ -177,7 +177,8 @@ bool 	clutch_bite = 0;
 bool 	clutch_bite_req = 0;
 //0 is manual, 1 is auto
 uint8_t auto_shift = 0;
-int auto_shift_delay = 500;
+uint8_t old_auto_shift = -1;
+int auto_shift_delay = 1500;
 
 //Drive Mode
 byte old_drive_mode = 0x1;

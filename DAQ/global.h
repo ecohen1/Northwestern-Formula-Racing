@@ -25,6 +25,7 @@ int clutch_pos_req = -9999;
 #define TEENSY_VOL		3.3f		//Teensy Logic Voltage
 #define CAN_RATE		1000000		//1 Mbit/s
 #define CAN_SW		 	0x4F0		//CAN Data from Steering Wheel
+#define CAN_SW2      0x4F9   //CAN Data from Steering Wheel
 #define CAN_TT		 	0x4F1		//CAN Data from Transmission Teensy
 #define CAN_DAQ1	 	0x4F2		//CAN Data from DAQ
 #define CAN_DAQ2	 	0x4F3		//CAN Data from DAQ

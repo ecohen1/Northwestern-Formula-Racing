@@ -82,17 +82,10 @@ void sendCAN() {
 	//Bit 0-2		Gear
 	//Bit 3			Clutch Bite
 	//Bit 8-15		Clutch Position
-	if (swcounter%2 == 0){
-    txmsg.id = CAN_SW;
-    txmsg.buf[0] = sw_state;
-    txmsg.buf[1] = (gear_req & 0b1111) | (clutch_bite_req << 4);
-    txmsg.buf[2] = clutch_pos_req;
-  } else {
-    txmsg.id = CAN_SW2;
-    txmsg.buf[0] = brake_pressure;
-    txmsg.buf[1] = brake_pressure;
-    txmsg.buf[2] = brake_pressure;
-  }
+  txmsg.id = CAN_SW;
+  txmsg.buf[0] = sw_state;
+  txmsg.buf[1] = (gear_req & 0b1111) | (clutch_bite_req << 4);
+  txmsg.buf[2] = clutch_pos_req;
 	CANbus.write(txmsg);
   swcounter++;
 }

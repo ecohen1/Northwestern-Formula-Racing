@@ -64,7 +64,8 @@ void debug() {
 	//Serial.println(analogRead(ROTARY));
 	//Serial.println(digitalRead(LAUNCH));
 	//Serial.println(analogRead(CLUTCH1)*TEENSY_VOL/an_lv);
-	//Serial.println(analogRead(CLUTCH2)*TEENSY_VOL/an_lv);
+	Serial.println(analogRead(ROTARY));
+  Serial.println(auto_shift);
 	//Serial.println(clutch_p1);
 	//Serial.println(clutch_p2);
 	//Serial.println(gear_req);
@@ -94,7 +95,7 @@ void debug() {
 	//Serial.println(drive_mode);
 	//Serial.println(gear_req);
 	//Serial.println(gear);
-	Serial.println(auto_shift);
+	//Serial.println(auto_shift);
 	//Serial.println(rxmsg.id);
 	//Serial.println(rpm);
 	//Serial.println(oil_pressure);

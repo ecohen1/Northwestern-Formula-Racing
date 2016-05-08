@@ -184,7 +184,7 @@ void refreshLCD(int page) {
 	printNum(gear, 335, ROW6, 1, 0); // Gear
 	tft.setCursor(COLUMN1,420);
 	tft.setFontScale(3);
-	if (old_drive_mode != drive_mode) {
+	if (old_auto_shift != auto_shift) {
 		print_drive_mode();
 	} 
 }
@@ -194,18 +194,15 @@ void print_drive_mode() {
   tft.setTextColor(front_color,back_color);
   tft.setCursor(COLUMN1,420);
   tft.setFontScale(3);
-  switch(drive_mode) { // Drive mode
+  switch(auto_shift) { // Drive mode
     case 0:
     tft.print("MANUAL");
     break;
     case 1:
-    tft.print("SPORT");
-    break;
-    case 2:
     tft.print("AUTO");
     break;
   }
-  old_drive_mode = drive_mode;
+  old_auto_shift = auto_shift;
 }
 
 void uploadNum(const uint8_t c[][16], int len, int N) {

@@ -1,6 +1,6 @@
 //Teensy 3.1 Pinout
-#define LAUNCH		5
-#define TRACTION  6
+#define LAUNCH		5 //b21
+#define TRACTION  6 //b6
 #define IGN_CUT		7
 #define CAN_TX		3
 #define CAN_RX		4
@@ -171,7 +171,7 @@ int upshiftpin = 8;//5;
 int dd1 = 100;//clutch open
 int dd2 = 250;//shifter out
 int dd3 = 50;//shifter to middle
-int ud2 = 65;//shifter out
+int ud2 = 80;//shifter out
 int del = 0;
 int CUT_TO_SHIFT = 20;
 int SHIFT_TO_ON = 10;
