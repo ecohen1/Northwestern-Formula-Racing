@@ -41,15 +41,25 @@ void processInputs() {
 	}
   if (auto_shift){
     //auto_shifting for loss of shifting control
-    if (gear < 5 && rpm > 9000)
+    if (gear < 5 && gear != 0 && rpm > 9000 && auto_shift_delay <= 0)
     {
       shift_req = 1;
-      delay(70);
+      auto_shift_delay = AUTO_DEBOUNCE;
+      //delay(70);
     }
-    else if (gear > 1 && rpm < 2950)
+    else if (gear > 1 && rpm < 2950 && auto_shift_delay <= 0)
     {
       shift_req = 2;
-      delay(70);
+      auto_shift_delay = AUTO_DEBOUNCE;
+      //delay(70);
+    }
+    else
+    {
+      auto_shift_delay--;
+      if (auto_shift_delay < 0)
+      {
+        auto_shift_delay = 0;
+      }
     }
   }
   else {

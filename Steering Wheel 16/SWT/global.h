@@ -55,6 +55,7 @@
 #define IDLE			1200		//Engine Idle
 #define REDLINE			10000		//Engine Redline
 #define MAX_RPM			10500		//You shall not pass
+#define AUTO_DEBOUNCE 500
 
 //Global Variables
 
@@ -175,6 +176,7 @@ bool 	clutch_bite = 0;
 bool 	clutch_bite_req = 0;
 //0 is manual, 1 is auto
 uint8_t auto_shift = 0;
+int auto_shift_delay = 500;
 
 //Drive Mode
 byte old_drive_mode = 0x1;
