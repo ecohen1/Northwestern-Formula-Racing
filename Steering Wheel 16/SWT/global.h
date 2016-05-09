@@ -14,7 +14,7 @@
 #define SCK				13
 #define TRACTION	15
 #define LAUNCH		16
-#define ROTARY		17
+#define ROTARY		17 //pos readings: 1: 4095, 2: 2700, 3: 1640, 4: 0
 #define UP				19
 #define DOWN			20
 #define CLUTCH    14
@@ -179,6 +179,7 @@ bool 	clutch_bite_req = 0;
 uint8_t auto_shift = 0;
 uint8_t old_auto_shift = -1;
 int auto_shift_delay = 1500;
+float slip = 0.0;
 
 //Drive Mode
 byte old_drive_mode = 0x1;
@@ -188,6 +189,7 @@ byte drive_mode = 0;
 RA8875 tft = RA8875(CS_LCD,RESET);
 uint16_t tx, ty;
 char temp[100];
+int old_sw_mode = 0;
 //time_t t;
 
 //Neopixel Ring
@@ -231,4 +233,6 @@ uint16_t RGB565(uint32_t rgb);
 void bright_adj();
 void setupinput();
 void setupoutput();
+void update_traction(int rot_pos, byte old);
+void update_launch(int rot_pos, byte old);
 void refreshTime();		// Resets the clock

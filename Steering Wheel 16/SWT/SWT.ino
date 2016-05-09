@@ -65,11 +65,11 @@ void debug() {
 	//Serial.println(digitalRead(LAUNCH));
 	//Serial.println(analogRead(CLUTCH1)*TEENSY_VOL/an_lv);
 	Serial.println(analogRead(ROTARY));
-  Serial.println(auto_shift);
+  //Serial.println(auto_shift);
 	//Serial.println(clutch_p1);
 	//Serial.println(clutch_p2);
 	//Serial.println(gear_req);
-	//Serial.println(sw_state);
+	Serial.println(sw_state);
 	//Serial.println(sw_led_state);
 	//Serial.println(bright);
 	/*Serial.print((sw_state & 0b10000000) >> 7);

@@ -21,22 +21,31 @@ void processCAN() {
 		if (rxmsg.id == CAN_SW) {
 			tt_sw = rxmsg.buf[0];
 
-      if (tt_sw&(1<<traction_offset))
+      tt_tc = tt_sw & tc_mask;
+      tt_lc = tt_sw & lc_mask;
+      
+      if (tt_sw == 0)
       {
-        digitalWrite(TRACTION,HIGH);
+        analogWrite(TRACTION, 0);
+        analogWrite(LAUNCH, 0);
       }
-      else
-      {
-        digitalWrite(TRACTION,LOW);
-      }
-      if (tt_sw&(1<<launch_offset))
-      {
-        digitalWrite(LAUNCH,HIGH);
-      }
-      else
-      {
-        digitalWrite(LAUNCH,LOW);
-      }
+      if (tt_lc == 0)
+        analogWrite(LAUNCH, 0);
+      if (tt_tc == 0)
+        analogWrite(TRACTION, 0);
+      //1.1 85, 2.2 170, 3.3 255
+      if (tt_sw & 0b1)
+        analogWrite(TRACTION, 85);
+      if (tt_sw & 0b10)
+        analogWrite(TRACTION, 170);
+      if (tt_sw & 0b100)
+        analogWrite(TRACTION, 255);
+      if (tt_sw & 0b1000)
+        analogWrite(LAUNCH, 85);
+      if (tt_sw & 0b10000)
+        analogWrite(LAUNCH, 170);
+      if (tt_sw & 0b100000)
+        analogWrite(LAUNCH, 255);
 
       //richard is the coolest boy in school ;)
       

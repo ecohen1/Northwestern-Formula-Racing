@@ -20,8 +20,8 @@ void setup() {
   digitalWrite(upshiftpin,LOW);
   digitalWrite(dnshiftpin,LOW);
   digitalWrite(IGN_CUT,LOW);
-  digitalWrite(LAUNCH,LOW);
-  digitalWrite(TRACTION,LOW);
+  analogWrite(LAUNCH,0);
+  analogWrite(TRACTION,0);
 }
 
 
@@ -36,7 +36,7 @@ void loop() {
   test_num++;
   //if (test_num > 9) test_num = 0;
   delay(50);//prob unnecessary
-  Serial.println(clutch_pos_req);
+  Serial.println(tt_sw);
   gear_reset = 0;//boolean, if true sets gear_req to 0 (SW code)
   sendCAN();
   Serial.print("Hello");

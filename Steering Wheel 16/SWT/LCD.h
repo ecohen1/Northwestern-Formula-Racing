@@ -31,7 +31,7 @@ uint32_t clutch_color = 0xFF5E00;
 float oldOil = 0.;
 float oldThrottle = 0.;
 float oldTemp = 0.;
-float oldSpeed = 0.;
+float oldSpeed = -1.;
 float oldRPM = 0.;
 float oldlambda = 0.;
 float oldbattvolt = 0.;
@@ -84,6 +84,7 @@ void resetLCD(String message) {
 	tft.setFontScale(1);
 	tft.setCursor(COLUMN1+115, ROW2);
 	tft.print("OIL(PSI)");
+  //tft.print("BP");
 	tft.setCursor(COLUMN1+115, ROW4);
 	sprintf(temp, "ET (%cF)", 176);
 	tft.print(temp);
@@ -91,8 +92,8 @@ void resetLCD(String message) {
 	tft.print("BATT1 (V)");
 	tft.setCursor(COLUMN2+30, ROW4);
 	tft.print("CURR1 (A)");
-	tft.setCursor(COLUMN3+70, ROW2);
-	tft.print("LAMBDA");
+	tft.setCursor(COLUMN3+40, ROW2);
+	tft.print("SPEED (MPH)");
 	tft.fillCircle(360, 365, 70, line_color);
 	tft.fillCircle(360, 365, 60, back_color);
 	tft.fillRect(BORDER3 - LINE_WIDTH / 2, BORDER1, LINE_WIDTH, BORDER2 - BORDER1, line_color);
@@ -144,7 +145,7 @@ void refreshLCD(int page) {
     refreshTime();
 	tft.setFontScale(0);
     tft.setTextColor(front_color,back_color);
-	if (abs(oil_pressure - oldOil) > tol) {
+	if (abs(oil_pressure - oldOil) > 20*tol) {
 		printNum(oil_pressure, COLUMN1, ROW3, 5, 1); // Oil
     tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -100*2-LINE_WIDTH, back_color);
     tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -oil_pressure*2-LINE_WIDTH, RGB565(0xFF5E00));
@@ -152,6 +153,7 @@ void refreshLCD(int page) {
 		oldOil = oil_pressure;
 	}
 	if (abs(brake_pressure - oldbrake) > tol) {
+  //printNum(brake_pressure, COLUMN1, ROW3, 5, 1); // Oil
         tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -100*2-LINE_WIDTH, back_color);
         tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -brake_pressure*.4-LINE_WIDTH, RGB565(0xF22613));
 		oldbrake = brake_pressure;
@@ -177,14 +179,14 @@ void refreshLCD(int page) {
 		printNum(main_a, COLUMN2, ROW5, 4, 1);
 		old_a = main_a;
 	}
-	if (abs(lambda1 - oldlambda) > .02 * tol) {
-		printNum(lambda1, COLUMN3, ROW3, 4, 2);
-		oldlambda = lambda1;
+	if (abs(ground_speed - oldSpeed) > .2 * tol) {
+		printNum(ground_speed, COLUMN3 + 50, ROW3, 3, 0);
+		oldSpeed = ground_speed;
 	}
 	printNum(gear, 335, ROW6, 1, 0); // Gear
 	tft.setCursor(COLUMN1,420);
 	tft.setFontScale(3);
-	if (old_auto_shift != auto_shift) {
+	if (old_auto_shift != auto_shift || old_sw_mode != sw_state) {
 		print_drive_mode();
 	}
 }
@@ -202,7 +204,28 @@ void print_drive_mode() {
     tft.print("AUTO");
     break;
   }
+  if (sw_state & 0b111)
+  {
+    tft.setCursor(COLUMN2, 420);
+    tft.print("TC");
+  }
+  else
+  {
+    tft.setCursor(COLUMN2, 420);
+    tft.print("  ");
+  }
+  if (sw_state & 0b111000)
+  {
+    tft.setCursor(COLUMN3, 420);
+    tft.print("LC");
+  }
+  else
+  {
+    tft.setCursor(COLUMN3, 420);
+    tft.print("  ");
+  }
   old_auto_shift = auto_shift;
+  old_sw_mode = sw_state;
 }
 
 void uploadNum(const uint8_t c[][16], int len, int N) {

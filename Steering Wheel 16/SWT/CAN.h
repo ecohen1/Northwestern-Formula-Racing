@@ -28,7 +28,7 @@ void processCAN() {
 			clutch_pos = 100*rxmsg.buf[2]/255.;
 		}
 		if (rxmsg.id == CAN_DAQ1) {
-			brake_pressure = rxmsg.buf[0];
+			//brake_pressure = rxmsg.buf[0];
 		}
 		if (rxmsg.id == CAN_DAQ2) {
 
@@ -58,12 +58,14 @@ void processCAN() {
 			speed_RR = .1*((rxmsg.buf[6] << 8) | rxmsg.buf[7]);
 			ground_speed = max(speed_FL, speed_FR);
 			drive_speed = (speed_RL + speed_RR) / 2.;
+      slip = ((drive_speed - ground_speed)/ground_speed)*100;
 		}
 		if (rxmsg.id == CAN4) {
 			battvolt = .01*((rxmsg.buf[0] << 8) | rxmsg.buf[1]);
 			main_a = .1*((rxmsg.buf[2] << 8) | rxmsg.buf[3]);
-            // brake_pressure = .1*((rxmsg.buf[4] << 8) | rxmsg.buf[5]);
-            // brake_pressure = constrain(brake_pressure,0,500);
+      brake_pressure = .1*((rxmsg.buf[4] << 8) | rxmsg.buf[5]);
+      if (brake_pressure > 1000) brake_pressure = 0;
+      brake_pressure = constrain(brake_pressure,0,500);
 		}
 	}
 }

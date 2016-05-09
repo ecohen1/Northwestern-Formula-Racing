@@ -1,53 +1,96 @@
 //SW STATE IS A BINARY NUMBER. THE SECOND BIT FROM LEFT IS CLUTCH. THIRD IS TRACTION, FOURTH IS LAUNCH. SIXTH AND SEVENTH ARE PADDLES.
 
+void update_traction(int rot_pos){
+  //sw_state &= 0b111000;
+  if(rot_pos > 3500 || rot_pos < 500)
+    sw_state |= 0b000001;
+  else if(rot_pos > 2200 && rot_pos < 3400)
+    sw_state |= 0b000010;
+  else if(rot_pos > 500 && rot_pos < 2000)
+    sw_state |= 0b000100;
+}
+
+void update_launch(int rot_pos){
+  //sw_state &= 0b000111;
+  if(rot_pos > 3500 || rot_pos < 500)
+    sw_state |= 0b001000;
+  if(rot_pos > 2200 && rot_pos < 3400)
+    sw_state |= 0b010000;
+  if(rot_pos > 500 && rot_pos < 2000)
+    sw_state |= 0b100000;
+}
+
 //Toggles Switch State
 void processInputs() {
 	old_sw_state = sw_state;
-
-  if (analogRead(ROTARY) < 600) {
+  int rot_pos = analogRead(ROTARY);
+  
+  if (rot_pos < 600) {
     auto_shift = 1;
   }
   else {
     auto_shift = 0;
   }
-  
-	if (ground_speed < MIN_SPEED) {
 
-		//TRACTION switch debouncer
-		if (digitalRead(TRACTION)) {
-			up_counter[3]++;
-			if (up_counter[3] == SHORT_PRESS) sw_state ^= (digitalRead(TRACTION) << 3);
+  if (sw_state & 0b000111)
+  {
+    sw_state &= 0b111000;
+    update_traction(rot_pos);
+  }
+  if (sw_state & 0b111000)
+  {
+    sw_state &= 0b000111;
+    update_launch(rot_pos);
+  }
+
+	//TRACTION switch debouncer
+	if (digitalRead(TRACTION)) {
+		up_counter[3]++;
+		if (up_counter[3] == SHORT_PRESS) 
+		{
+      if(sw_state & 0b111)
+        sw_state &= 0b111000;
+      else
+        update_traction(analogRead(ROTARY));
 		}
-		else if (up_counter[3] > 0) {
-			dn_counter[3]++;
-			if (dn_counter[3] == SHORT_PRESS) {
-				up_counter[3] = 0;
-				dn_counter[3] = 0;
-			}
+	}
+	else if (up_counter[3] > 0) {
+		dn_counter[3]++;
+		if (dn_counter[3] == SHORT_PRESS) {
+			up_counter[3] = 0;
+			dn_counter[3] = 0;
 		}
-   
-		//Launch Control switch debouncer 
-		if (digitalRead(LAUNCH)) {
-			up_counter[4]++;
-			if (up_counter[4] == SHORT_PRESS) sw_state ^= (digitalRead(LAUNCH) << 4);
+	}
+ 
+	//Launch Control switch debouncer 
+	if (digitalRead(LAUNCH)) {
+		up_counter[4]++;
+		if (up_counter[4] == SHORT_PRESS) 
+		{
+      if(sw_state & 0b111000)
+        sw_state &= 0b000111;
+      else if(ground_speed > 20)
+        sw_state &= 0b000111;
+      else
+        update_launch(analogRead(ROTARY));
 		}
-		else if (up_counter[4] > 0) {
-			dn_counter[4]++;
-			if (dn_counter[4] == SHORT_PRESS) {
-				up_counter[4] = 0;
-				dn_counter[4] = 0;
-			}
+	}
+	else if (up_counter[4] > 0) {
+		dn_counter[4]++;
+		if (dn_counter[4] == SHORT_PRESS) {
+			up_counter[4] = 0;
+			dn_counter[4] = 0;
 		}
 	}
   if (auto_shift){
     //auto_shifting for loss of shifting control
-    if (gear < 5 && gear != 0 && rpm > 9000 && auto_shift_delay <= 0)
+    if (gear < 5 && gear != 0 && rpm > 9250 && auto_shift_delay <= 0 && slip < 10 && ground_speed > MIN_SPEED)
     {
       shift_req = 1;
       auto_shift_delay = AUTO_DEBOUNCE;
       //delay(70);
     }
-    else if (gear > 1 && rpm < 2950 && auto_shift_delay <= 0)
+    else if (gear > 1 && rpm < 4000 && auto_shift_delay <= 0 && ground_speed > MIN_SPEED)
     {
       shift_req = 2;
       auto_shift_delay = AUTO_DEBOUNCE;

@@ -129,6 +129,10 @@ float main_a = 0;
 
 //Transmission Teensy
 uint8_t tt_sw = 0x0;
+byte tc_mask = 0b111;
+byte lc_mask = 0b111000;
+uint8_t tt_tc = 0x0;
+uint8_t tt_lc = 0x0;
 uint8_t tt_trans = 0x0;
 int launch_offset = 4;
 int traction_offset = 3;
