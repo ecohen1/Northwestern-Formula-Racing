@@ -2,21 +2,21 @@
 
 void update_traction(int rot_pos){
   //sw_state &= 0b111000;
-  if(rot_pos > 3500 || rot_pos < 500)
+  if(rot_pos > 3400 || (rot_pos < 1400 && rot_pos > 800))
     sw_state |= 0b000001;
-  else if(rot_pos > 2200 && rot_pos < 3400)
+  else if(rot_pos > 2000 && rot_pos < 3400)
     sw_state |= 0b000010;
-  else if(rot_pos > 500 && rot_pos < 2000)
+  else if(rot_pos > 1400 && rot_pos < 2000)
     sw_state |= 0b000100;
 }
 
 void update_launch(int rot_pos){
   //sw_state &= 0b000111;
-  if(rot_pos > 3500 || rot_pos < 500)
+  if(rot_pos > 3400 || (rot_pos < 1400 && rot_pos > 800))
     sw_state |= 0b001000;
-  if(rot_pos > 2200 && rot_pos < 3400)
+  if(rot_pos > 2000 && rot_pos < 3400)
     sw_state |= 0b010000;
-  if(rot_pos > 500 && rot_pos < 2000)
+  if(rot_pos > 1400 && rot_pos < 2000)
     sw_state |= 0b100000;
 }
 
@@ -25,19 +25,19 @@ void processInputs() {
 	old_sw_state = sw_state;
   int rot_pos = analogRead(ROTARY);
   
-  if (rot_pos < 600) {
+  if (rot_pos < 1400 && rot_pos > 800) {
     auto_shift = 1;
   }
   else {
     auto_shift = 0;
   }
 
-  if (sw_state & 0b000111)
+  if (sw_state & 0b000111 && rot_pos > 800)
   {
     sw_state &= 0b111000;
     update_traction(rot_pos);
   }
-  if (sw_state & 0b111000)
+  if (sw_state & 0b111000 && rot_pos > 800)
   {
     sw_state &= 0b000111;
     update_launch(rot_pos);
