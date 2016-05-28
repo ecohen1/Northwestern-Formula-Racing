@@ -101,8 +101,8 @@ void resetLCD(String message) {
 	tft.fillRect(0, BORDER1 - LINE_WIDTH / 2, LCD_WIDTH, LINE_WIDTH, line_color);
 	tft.fillRect(0, BORDER2 - LINE_WIDTH / 2, LCD_WIDTH, LINE_WIDTH, line_color);
 	tft.fillRect(0, 300 - 5, 360, 9, line_color);
-	// tft.fillRect(BAR_COL+2*BAR_SPACE, BAR_ROW, BAR_WIDTH, -throtpos*2-LINE_WIDTH, RGB565(0x00FF64)); //Throttle Position
-	tft.fillRect(BAR_COL+2*BAR_SPACE, BAR_ROW, BAR_WIDTH, -daq_brake_pressure*2-LINE_WIDTH, RGB565(0x00FF64)); //Throttle Position
+	 tft.fillRect(BAR_COL+2*BAR_SPACE, BAR_ROW, BAR_WIDTH, -throtpos*2-LINE_WIDTH, RGB565(0x00FF64)); //Throttle Position
+//	tft.fillRect(BAR_COL+2*BAR_SPACE, BAR_ROW, BAR_WIDTH, -daq_brake_pressure*2-LINE_WIDTH, RGB565(0x00FF64)); //Throttle Position
 	tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -brake_pressure*.4-LINE_WIDTH, RGB565(0xF22613)); //Brake Pressure
 	tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -oil_pressure*2-LINE_WIDTH, RGB565(0xFF5E00)); //Oil Pressure
 	tft.setCursor(COLUMN2, 420);

@@ -33,10 +33,11 @@ void setup()
   pinMode(tempPin, INPUT);
   pinMode(susPin1, INPUT);
   pinMode(susPin2, INPUT);
-
   setupCAN();
+//  Serial.println("b");
 //  delay(d);
 
+//UNCOMMENT THIS WHEN PUTTING ON CAR
   while (!SD.begin(10)) {
 //    Serial.print("Initializing SD card...");
 //    Serial.println("initialization failed!");
@@ -126,6 +127,8 @@ void loop()
 //  susFile.close();
 
   delay(d);
+
+//  ALSO UNCOMMENT THIS
   if (SD.exists("temp.txt")) {
 //    Serial.println("data.txt exists.");
   }

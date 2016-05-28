@@ -29,6 +29,8 @@ void processCAN() {
 		}
 		if (rxmsg.id == CAN_DAQ1) {
 			daq_brake_pressure = rxmsg.buf[0];
+      Serial.print("daq received");
+      Serial.println(daq_brake_pressure);
 		}
 		if (rxmsg.id == CAN_DAQ2) {
 

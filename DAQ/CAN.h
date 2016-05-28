@@ -28,14 +28,15 @@ void processCAN() {
 		//You then have to scale this integer by whatever the MoTeC
 		//CAN document says
 		if (rxmsg.id == CAN_SW) {
-      clutch_pos_req = rxmsg.buf[2];
     }
 		if (rxmsg.id == CAN_SW2) {
-			brake_pressure = rxmsg.buf[0];
+//			brake_pressure = rxmsg.buf[0];
 		}
     if (rxmsg.id == CAN1) {
+
 		}
 		if (rxmsg.id == CAN2) {
+
 		}
 		if (rxmsg.id == CAN3) {
 		}
@@ -43,11 +44,15 @@ void processCAN() {
       brake_pressure = .1*((rxmsg.buf[4] << 8) | rxmsg.buf[5]);
       if (brake_pressure > 1000) brake_pressure = 0;
       brake_pressure = constrain(brake_pressure,0,500);
+
 		}
+   
 	}
 }
 
 void sendCAN() {
+      Serial.print("BP: ");
+      Serial.println(brake_pressure);
 	//Steering Wheel Data Packet
 	//Packet 1
 	//Bit 0			ENGINE is ON
@@ -61,6 +66,7 @@ void sendCAN() {
 	//Bit 0-2		Gear
 	//Bit 3			Clutch Bite
 	//Bit 8-15		Clutch Position
+  txmsg.id = CAN_DAQ1;
 	txmsg.buf[0] = brake_pressure;
 //	txmsg.buf[1] = (gear_req & 0b1111) | (clutch_bite_req << 4);
 //	txmsg.buf[2] = clutch_pos_req;
