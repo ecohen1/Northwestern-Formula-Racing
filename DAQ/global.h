@@ -20,7 +20,7 @@
 //#define CLUTCH    15
 //
 int daqcounter = 0;
-int brake_pressure = -999;
+int brake_pressure = 0;
 int clutch_pos_req = -9999;
 ////Global defines for convenience
 #define TEENSY_VOL		3.3f		//Teensy Logic Voltage

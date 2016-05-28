@@ -40,8 +40,9 @@ void processCAN() {
 		if (rxmsg.id == CAN3) {
 		}
 		if (rxmsg.id == CAN4) {
-            // brake_pressure = .1*((rxmsg.buf[4] << 8) | rxmsg.buf[5]);
-            // brake_pressure = constrain(brake_pressure,0,500);
+      brake_pressure = .1*((rxmsg.buf[4] << 8) | rxmsg.buf[5]);
+      if (brake_pressure > 1000) brake_pressure = 0;
+      brake_pressure = constrain(brake_pressure,0,500);
 		}
 	}
 }
@@ -60,9 +61,8 @@ void sendCAN() {
 	//Bit 0-2		Gear
 	//Bit 3			Clutch Bite
 	//Bit 8-15		Clutch Position
-	txmsg.buf[0] = daqcounter % 1000;
+	txmsg.buf[0] = brake_pressure;
 //	txmsg.buf[1] = (gear_req & 0b1111) | (clutch_bite_req << 4);
 //	txmsg.buf[2] = clutch_pos_req;
 	CANbus.write(txmsg);
-	daqcounter++;
 }

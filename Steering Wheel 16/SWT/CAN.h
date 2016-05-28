@@ -28,7 +28,7 @@ void processCAN() {
 			clutch_pos = 100*rxmsg.buf[2]/255.;
 		}
 		if (rxmsg.id == CAN_DAQ1) {
-			//brake_pressure = rxmsg.buf[0];
+			daq_brake_pressure = rxmsg.buf[0];
 		}
 		if (rxmsg.id == CAN_DAQ2) {
 

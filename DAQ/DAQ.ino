@@ -96,6 +96,7 @@ void loop()
     degree = temp2(temp);
   else if(count%4==3)
     degree = temp4(temp);
+  sendCAN();
 //  Serial.print(degree);
 //  Serial.println(" degrees");
   // open a new file and immediately close it:

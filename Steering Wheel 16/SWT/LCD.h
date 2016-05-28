@@ -46,7 +46,7 @@ void setupLCD() {
 	tft.begin(Adafruit_800x480);
 	tft.PWMout(1,255);
 	//Custom Text Upload
-    tft.changeMode(TEXT);
+	tft.changeMode(TEXT);
 	uploadNum(char0, 24, 0);
 	uploadNum(char1, 24, 24);
 	uploadNum(char2, 24, 48);
@@ -58,10 +58,10 @@ void setupLCD() {
 	uploadNum(char8, 24, 192);
 	uploadNum(char9, 24, 216);
 	uploadNum(char_engine, 10, 240);
-    uint8_t hello[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-    tft.uploadUserChar(hello, 255);
+	uint8_t hello[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	tft.uploadUserChar(hello, 255);
 	tft.setScrollWindow(0, BORDER3, BORDER1, BORDER2);
-    //Must upload an extra char to get rid of garbage in last upload
+	//Must upload an extra char to get rid of garbage in last upload
 	//Setup Background
 	resetLCD("");
 	//setTime(1430691518);
@@ -84,7 +84,7 @@ void resetLCD(String message) {
 	tft.setFontScale(1);
 	tft.setCursor(COLUMN1+115, ROW2);
 	tft.print("OIL(PSI)");
-  //tft.print("BP");
+	//tft.print("BP");
 	tft.setCursor(COLUMN1+115, ROW4);
 	sprintf(temp, "ET (%cF)", 176);
 	tft.print(temp);
@@ -101,9 +101,10 @@ void resetLCD(String message) {
 	tft.fillRect(0, BORDER1 - LINE_WIDTH / 2, LCD_WIDTH, LINE_WIDTH, line_color);
 	tft.fillRect(0, BORDER2 - LINE_WIDTH / 2, LCD_WIDTH, LINE_WIDTH, line_color);
 	tft.fillRect(0, 300 - 5, 360, 9, line_color);
-    tft.fillRect(BAR_COL+2*BAR_SPACE, BAR_ROW, BAR_WIDTH, -throtpos*2-LINE_WIDTH, RGB565(0x00FF64)); //Throttle Position
-    tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -brake_pressure*.4-LINE_WIDTH, RGB565(0xF22613)); //Brake Pressure
-    tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -oil_pressure*2-LINE_WIDTH, RGB565(0xFF5E00)); //Oil Pressure
+	// tft.fillRect(BAR_COL+2*BAR_SPACE, BAR_ROW, BAR_WIDTH, -throtpos*2-LINE_WIDTH, RGB565(0x00FF64)); //Throttle Position
+	tft.fillRect(BAR_COL+2*BAR_SPACE, BAR_ROW, BAR_WIDTH, -daq_brake_pressure*2-LINE_WIDTH, RGB565(0x00FF64)); //Throttle Position
+	tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -brake_pressure*.4-LINE_WIDTH, RGB565(0xF22613)); //Brake Pressure
+	tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -oil_pressure*2-LINE_WIDTH, RGB565(0xFF5E00)); //Oil Pressure
 	tft.setCursor(COLUMN2, 420);
 	tft.setFontScale(3);
 	tft.print(message);
@@ -112,50 +113,50 @@ void resetLCD(String message) {
 	printNum(engine_temp, COLUMN1, ROW5, 5, 1); // Engine temp
 	printNum(rpm, 10, 330, 5, 0); // RPM
 	printEngine(735, 100);
-    print_drive_mode();
+	print_drive_mode();
 }
 
 void refreshTime(){
 	tft.setFontScale(0);
-    tft.setTextColor(front_color,back_color);
+	tft.setTextColor(front_color,back_color);
 	//Update Time
 	//printNum((hour(t)), TIME_OFFSET, ROW1, 2, 0);
-  printNum(0, TIME_OFFSET, ROW1, 2, 0);
-  //if ((minute(t)) < 10){
+	printNum(0, TIME_OFFSET, ROW1, 2, 0);
+	//if ((minute(t)) < 10){
 	if (0 < 10) {
 		printNum(0, TIME_OFFSET+120, ROW1, 1, 0);
-    //printNum(minute(t), TIME_OFFSET+170, 0, 1, 0);
+		//printNum(minute(t), TIME_OFFSET+170, 0, 1, 0);
 		printNum(0, TIME_OFFSET+170, 0, 1, 0);
 	}
-  //else printNum(minute(t), TIME_OFFSET + 120, ROW1, 2, 0);
+	//else printNum(minute(t), TIME_OFFSET + 120, ROW1, 2, 0);
 	else printNum(0, TIME_OFFSET + 120, ROW1, 2, 0);
 	//if (second(t) < 10) {
 	if (sec < 10) {
 		printNum(0, TIME_OFFSET+240, ROW1, 1, 0);
 		//printNum(second(t), TIME_OFFSET+290, ROW1, 1, 0);
-    printNum(sec, TIME_OFFSET+290, ROW1, 1, 0);
+		printNum(sec, TIME_OFFSET+290, ROW1, 1, 0);
 	}
 	//else printNum(second(t), TIME_OFFSET+240, ROW1, 2, 0);
-  else printNum(sec, TIME_OFFSET+240, ROW1, 2, 0);
+	else printNum(sec, TIME_OFFSET+240, ROW1, 2, 0);
 
-  sec++;
+	sec++;
 }
 
 void refreshLCD(int page) {
-    refreshTime();
+	refreshTime();
 	tft.setFontScale(0);
-    tft.setTextColor(front_color,back_color);
+	tft.setTextColor(front_color,back_color);
 	if (abs(oil_pressure - oldOil) > 20*tol) {
 		printNum(oil_pressure, COLUMN1, ROW3, 5, 1); // Oil
-    tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -100*2-LINE_WIDTH, back_color);
-    tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -oil_pressure*2-LINE_WIDTH, RGB565(0xFF5E00));
+		tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -100*2-LINE_WIDTH, back_color);
+		tft.fillRect(BAR_COL, BAR_ROW, BAR_WIDTH, -oil_pressure*2-LINE_WIDTH, RGB565(0xFF5E00));
 
 		oldOil = oil_pressure;
 	}
 	if (abs(brake_pressure - oldbrake) > tol) {
-  //printNum(brake_pressure, COLUMN1, ROW3, 5, 1); // Oil
-        tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -100*2-LINE_WIDTH, back_color);
-        tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -brake_pressure*.4-LINE_WIDTH, RGB565(0xF22613));
+		//printNum(brake_pressure, COLUMN1, ROW3, 5, 1); // Oil
+		tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -100*2-LINE_WIDTH, back_color);
+		tft.fillRect(BAR_COL+BAR_SPACE, BAR_ROW, BAR_WIDTH, -brake_pressure*.4-LINE_WIDTH, RGB565(0xF22613));
 		oldbrake = brake_pressure;
 	}
 	if (abs(throtpos - oldThrottle) > tol) {
@@ -192,40 +193,40 @@ void refreshLCD(int page) {
 }
 
 void print_drive_mode() {
-  tft.fillRect(0, BORDER2 + LINE_WIDTH / 2, LCD_WIDTH/3., LCD_HEIGHT - BORDER2, back_color);
-  tft.setTextColor(front_color,back_color);
-  tft.setCursor(COLUMN1,420);
-  tft.setFontScale(3);
-  switch(auto_shift) { // Drive mode
-    case 0:
-    tft.print("MANUAL");
-    break;
-    case 1:
-    tft.print("AUTO");
-    break;
-  }
-  if (sw_state & 0b111)
-  {
-    tft.setCursor(COLUMN2, 420);
-    tft.print("TC");
-  }
-  else
-  {
-    tft.setCursor(COLUMN2, 420);
-    tft.print("  ");
-  }
-  if (sw_state & 0b111000)
-  {
-    tft.setCursor(COLUMN3, 420);
-    tft.print("LC");
-  }
-  else
-  {
-    tft.setCursor(COLUMN3, 420);
-    tft.print("  ");
-  }
-  old_auto_shift = auto_shift;
-  old_sw_mode = sw_state;
+	tft.fillRect(0, BORDER2 + LINE_WIDTH / 2, LCD_WIDTH/3., LCD_HEIGHT - BORDER2, back_color);
+	tft.setTextColor(front_color,back_color);
+	tft.setCursor(COLUMN1,420);
+	tft.setFontScale(3);
+	switch(auto_shift) { // Drive mode
+		case 0:
+		tft.print("MANUAL");
+		break;
+		case 1:
+		tft.print("AUTO");
+		break;
+	}
+	if (sw_state & 0b111)
+	{
+		tft.setCursor(COLUMN2, 420);
+		tft.print("TC");
+	}
+	else
+	{
+		tft.setCursor(COLUMN2, 420);
+		tft.print("  ");
+	}
+	if (sw_state & 0b111000)
+	{
+		tft.setCursor(COLUMN3, 420);
+		tft.print("LC");
+	}
+	else
+	{
+		tft.setCursor(COLUMN3, 420);
+		tft.print("  ");
+	}
+	old_auto_shift = auto_shift;
+	old_sw_mode = sw_state;
 }
 
 void uploadNum(const uint8_t c[][16], int len, int N) {
@@ -271,5 +272,5 @@ void printEngine(int x, int y) {
 }
 
 uint16_t RGB565(uint32_t rgb) {
-    return (((rgb >> 19) & 0x1F) << 11) | (((rgb >> 10) & 0x3F) << 5) | (((rgb >> 3) & 0x1F));
+	return (((rgb >> 19) & 0x1F) << 11) | (((rgb >> 10) & 0x3F) << 5) | (((rgb >> 3) & 0x1F));
 }

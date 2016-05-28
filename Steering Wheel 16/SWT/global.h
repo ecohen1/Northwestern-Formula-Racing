@@ -84,6 +84,7 @@ float manifpres = 0;     	//Manifold Air Pressure
 float engine_temp = 0;   	//Engine Temperature
 float lambda1 = 0;       	//Lambda
 float oil_pressure = 0;  	//Oil Pressure
+float daq_brake_pressure = 0;  	//Oil Pressure
 float gearvolt = 0;      	//Gear Sensor Voltage
 float speed_FL = 0;      	//Wheel Speed: Front Left
 float speed_FR = 0;      	//Wheel Speed: Front Right
