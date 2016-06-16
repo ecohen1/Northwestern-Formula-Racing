@@ -1,7 +1,7 @@
 //CAN Setup
 FlexCAN CANbus(CAN_RATE);
 CAN_message_t txmsg, rxmsg;
-CAN_filter_t motec_mask = { 0, 0, 0x7F0 };  //Checks first 7 digits of ID
+CAN_filter_t motec_mask = { 0, 0, 0x7F0 };  //Checks first 7 digits of CAN ID
 CAN_filter_t filters = { 0, 0, 0 };
 uint32_t filter[8] = {CAN_TT, CAN_DAQ1, CAN_DAQ2, CAN1, CAN2, CAN3, CAN4, CAN5};
 int swcounter = 0;
